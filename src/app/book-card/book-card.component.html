@@ -1,10 +1,10 @@
 <mat-card class="book-card">
   <mat-card-header>
-    <mat-card-title>Moby Dick</mat-card-title>
-    <mat-card-subtitle>Herman Melville</mat-card-subtitle>
+    <mat-card-title [style]="customStyle">{{ content.title }}</mat-card-title>
+    <mat-card-subtitle>{{ content.author }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <p><a href="http://www.google.de">Details</a></p>
-    <p>Placeholder Text.</p>
+    <p>{{ content.abstract }}</p>
   </mat-card-content>
 </mat-card>
