@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { BookCardComponent } from './book-card/book-card.component';
+import { Book } from '../types/book';
 
 @Component({
   selector: 'app-root',
@@ -19,4 +20,9 @@ export class AppComponent {
     author: 'Dale Carnegie',
     abstract: 'In this book ...',
   };
+
+  navigate(book: Book) {
+    console.log('Navigate to book details, soon...');
+    console.table(book);
+  }
 }
