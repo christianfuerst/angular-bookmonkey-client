@@ -5,11 +5,20 @@
         <span>Book Monkey Client</span>
       </mat-toolbar-row>
     </mat-toolbar>
-    <div class="center">
-      <app-book-card
-        [content]="book"
-        (detailClick)="navigate($event)"
-      ></app-book-card>
-    </div>
+    <mat-form-field class="form-field">
+      <mat-label>Suchen</mat-label>
+      <input matInput (input)="updateBookFilter($event)" />
+    </mat-form-field>
+    <mat-grid-list cols="4" rowHeight="2:1">
+      @for (book of books | bookFilter: bookFilter; track book) {
+      <mat-grid-tile>
+        <app-book-card
+          [content]="book"
+          (detailClick)="navigate($event)"
+        ></app-book-card> </mat-grid-tile
+      >} @empty {
+      <mat-grid-tile> Keine Bücher vorhanden. </mat-grid-tile>
+      }
+    </mat-grid-list>
   </div>
 </main>
