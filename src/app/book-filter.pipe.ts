@@ -12,7 +12,7 @@ export class BookFilterPipe implements PipeTransform {
       return books;
     }
 
-    //Ignore case
+    // Ignore case
     searchTerm = searchTerm.toLocaleLowerCase();
 
     return books.filter((b) =>
