@@ -69,7 +69,7 @@ export class BookApiService {
     },
   ];
 
-  getAll() {
+  getAll(): Book[] {
     return this.books;
   }
 }

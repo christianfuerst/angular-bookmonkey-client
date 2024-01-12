@@ -39,6 +39,10 @@ export class BookComponent {
     xs: 1,
   };
 
+  bookFilter = '';
+
+  books: Book[] = this.bookApi.getAll();
+
   constructor(
     private readonly bookApi: BookApiService,
     private breakpointObserver: BreakpointObserver
@@ -71,10 +75,6 @@ export class BookComponent {
         }
       });
   }
-
-  bookFilter = '';
-
-  books: Book[] = this.bookApi.getAll();
 
   filterbooks(book: Book): Book[] {
     return this.books.filter((b) => b.title.includes(book.title));
