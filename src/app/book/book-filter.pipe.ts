@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { Book } from '../types/book';
+import { Book } from './types/book';
 
 @Pipe({
   name: 'bookFilter',

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 
-import { Book } from '../../types/book';
+import { Book } from '../types/book';
 
 @Component({
   selector: 'app-book-card',
