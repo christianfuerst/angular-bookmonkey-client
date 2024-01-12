@@ -7,7 +7,7 @@
   <mat-label>Suchen</mat-label>
   <input matInput (input)="updateBookFilter($event)" />
 </mat-form-field>
-<mat-grid-list cols="4" rowHeight="2:1.75">
+<mat-grid-list [cols]="cols" rowHeight="20:11" gutterSize="20px">
   @for (book of books | bookFilter: bookFilter; track book) {
   <mat-grid-tile>
     <app-book-card
