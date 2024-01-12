@@ -5,6 +5,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 import { BookCardComponent } from './book-card/book-card.component';
 import { BookFilterPipe } from './book-filter.pipe';
@@ -19,6 +20,7 @@ import { Book } from './types/book';
     MatGridListModule,
     MatInputModule,
     MatFormFieldModule,
+    MatIconModule,
     BookCardComponent,
     BookFilterPipe,
   ],

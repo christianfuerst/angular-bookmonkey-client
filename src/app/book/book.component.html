@@ -1,20 +1,32 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>Book Monkey Client</span>
-  </mat-toolbar-row>
-</mat-toolbar>
-<mat-form-field class="form-field">
-  <mat-label>Suchen</mat-label>
-  <input matInput (input)="updateBookFilter($event)" />
-</mat-form-field>
-<mat-grid-list [cols]="cols" rowHeight="20:10">
-  @for (book of books | bookFilter: bookFilter; track book) {
-  <mat-grid-tile>
-    <app-book-card
-      [content]="book"
-      (detailClick)="navigate($event)"
-    ></app-book-card> </mat-grid-tile
-  >} @empty {
-  <mat-grid-tile> Keine Bücher vorhanden. </mat-grid-tile>
-  }
-</mat-grid-list>
+<div>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Book Monkey Client</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-form-field class="form-field">
+    <mat-label>Suchen</mat-label>
+    <input matInput [value]="bookFilter" (input)="updateBookFilter($event)" />
+    @if (bookFilter) {
+    <button
+      matSuffix
+      mat-icon-button
+      aria-label="Zurücksetzen"
+      (click)="bookFilter = ''"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    }
+  </mat-form-field>
+  <mat-grid-list [cols]="cols" rowHeight="20:10">
+    @for (book of books | bookFilter: bookFilter; track book) {
+    <mat-grid-tile>
+      <app-book-card
+        [content]="book"
+        (detailClick)="navigate($event)"
+      ></app-book-card> </mat-grid-tile
+    >} @empty {
+    <mat-grid-tile> Keine Bücher vorhanden. </mat-grid-tile>
+    }
+  </mat-grid-list>
+</div>
