@@ -41,7 +41,7 @@ export class BookComponent {
 
   bookFilter = '';
 
-  books: Book[] = this.bookApi.getAll();
+  books: Book[] = [];
 
   constructor(
     private readonly bookApi: BookApiService,
@@ -74,6 +74,10 @@ export class BookComponent {
           }
         }
       });
+
+    this.bookApi.getAll().subscribe((books) => {
+      this.books = books;
+    });
   }
 
   filterbooks(book: Book): Book[] {
