@@ -6,6 +6,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { BookCardComponent } from './book-card/book-card.component';
@@ -25,6 +26,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     BookCardComponent,
     BookFilterPipe,
   ],
@@ -41,6 +43,8 @@ export class BookComponent implements OnDestroy {
     sm: 1,
     xs: 1,
   };
+
+  isLoading = true;
 
   bookFilter = '';
 
@@ -85,9 +89,11 @@ export class BookComponent implements OnDestroy {
       this.bookApi.getAll().subscribe({
         next: (books) => {
           this.books = books;
+          this.isLoading = false;
         },
         error: (err: HttpErrorResponse) => {
           this._snackBar.open(err.message, 'Close');
+          this.isLoading = false;
         },
       })
     );
