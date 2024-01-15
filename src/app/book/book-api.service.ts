@@ -8,9 +8,11 @@ import { Book } from './types/book';
   providedIn: 'root',
 })
 export class BookApiService {
+  private baseUrl = 'http://localhost:4730/books';
+
   constructor(private readonly http: HttpClient) {}
 
   getAll(): Observable<Book[]> {
-    return this.http.get<Book[]>('http://localhost:4730/books');
+    return this.http.get<Book[]>(this.baseUrl);
   }
 }

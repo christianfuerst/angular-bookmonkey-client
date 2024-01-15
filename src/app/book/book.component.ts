@@ -6,12 +6,14 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { BookCardComponent } from './book-card/book-card.component';
 import { BookApiService } from './book-api.service';
 import { BookFilterPipe } from './book-filter.pipe';
 import { Book } from './types/book';
 import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-book',
@@ -48,6 +50,7 @@ export class BookComponent implements OnDestroy {
 
   constructor(
     private readonly bookApi: BookApiService,
+    private _snackBar: MatSnackBar,
     private breakpointObserver: BreakpointObserver
   ) {
     this.breakpointObserver
@@ -83,8 +86,8 @@ export class BookComponent implements OnDestroy {
         next: (books) => {
           this.books = books;
         },
-        error: (err) => {
-          console.error(err);
+        error: (err: HttpErrorResponse) => {
+          this._snackBar.open(err.message, 'Close');
         },
       })
     );
