@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -11,6 +11,7 @@ import { BookCardComponent } from './book-card/book-card.component';
 import { BookApiService } from './book-api.service';
 import { BookFilterPipe } from './book-filter.pipe';
 import { Book } from './types/book';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-book',
@@ -28,20 +29,22 @@ import { Book } from './types/book';
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss',
 })
-export class BookComponent {
+export class BookComponent implements OnDestroy {
   cols: number | undefined;
 
   gridByBreakpoint = {
-    xl: 5,
-    lg: 4,
-    md: 3,
-    sm: 2,
+    xl: 4,
+    lg: 3,
+    md: 2,
+    sm: 1,
     xs: 1,
   };
 
   bookFilter = '';
 
   books: Book[] = [];
+
+  subscription: Subscription = new Subscription();
 
   constructor(
     private readonly bookApi: BookApiService,
@@ -75,9 +78,20 @@ export class BookComponent {
         }
       });
 
-    this.bookApi.getAll().subscribe((books) => {
-      this.books = books;
-    });
+    this.subscription.add(
+      this.bookApi.getAll().subscribe({
+        next: (books) => {
+          this.books = books;
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   filterbooks(book: Book): Book[] {
