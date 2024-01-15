@@ -18,7 +18,7 @@
     </button>
     }
   </mat-form-field>
-  <mat-grid-list [cols]="cols" rowHeight="20:10">
+  <mat-grid-list [cols]="cols" rowHeight="12.5:10">
     @for (book of books | bookFilter: bookFilter; track book) {
     <mat-grid-tile>
       <app-book-card
