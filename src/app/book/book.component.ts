@@ -13,7 +13,7 @@ import { BookCardComponent } from './book-card/book-card.component';
 import { BookApiService } from './book-api.service';
 import { BookFilterPipe } from './book-filter.pipe';
 import { Book } from './types/book';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -48,6 +48,7 @@ export class BookComponent implements OnInit, OnDestroy {
 
   bookFilter = '';
 
+  books$: Observable<Book[]> = new Observable<Book[]>();
   books: Book[] = [];
 
   subscription: Subscription = new Subscription();
@@ -59,16 +60,10 @@ export class BookComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.bookApi.getAll().subscribe({
-        next: (books) => {
-          this.books = books;
-          this.isLoading = false;
-        },
-        error: (err: HttpErrorResponse) => {
-          this._snackBar.open(err.message, 'Close');
-          this.isLoading = false;
-        },
+    this.books$ = this.bookApi.getAll().pipe(
+      catchError((error: HttpErrorResponse): Observable<Book[]> => {
+        this._snackBar.open(error.message, 'Close');
+        return of([]);
       })
     );
 
@@ -99,11 +94,11 @@ export class BookComponent implements OnInit, OnDestroy {
           }
         }
       });
+
+    this.isLoading = false;
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   filterbooks(book: Book): Book[] {
     return this.books.filter((b) => b.title.includes(book.title));

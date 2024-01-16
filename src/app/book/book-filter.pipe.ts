@@ -7,7 +7,11 @@ import { Book } from './types/book';
   standalone: true,
 })
 export class BookFilterPipe implements PipeTransform {
-  transform(books: Book[], searchTerm: string): Book[] {
+  transform(books: Book[] | null, searchTerm: string): Book[] {
+    if (!books) {
+      return [];
+    }
+
     if (!searchTerm) {
       return books;
     }

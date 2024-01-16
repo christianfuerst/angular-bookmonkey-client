@@ -22,7 +22,7 @@
   <mat-spinner class="loading"></mat-spinner>
   }
   <mat-grid-list [cols]="cols" rowHeight="12.5:10">
-    @for (book of books | bookFilter: bookFilter; track book) {
+    @for (book of books$ | async | bookFilter: bookFilter; track book) {
     <mat-grid-tile>
       <app-book-card
         [content]="book"
