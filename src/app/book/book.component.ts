@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -48,8 +49,7 @@ export class BookComponent implements OnInit, OnDestroy {
 
   bookFilter = '';
 
-  books$: Observable<Book[]> = new Observable<Book[]>();
-  books: Book[] = [];
+  books: Signal<Book[] | undefined>;
 
   subscription: Subscription = new Subscription();
 
@@ -57,16 +57,18 @@ export class BookComponent implements OnInit, OnDestroy {
     private readonly bookService: BookService,
     private breakpointObserver: BreakpointObserver,
     private _snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.books = toSignal(
+      this.bookService.getAll().pipe(
+        catchError((error: HttpErrorResponse): Observable<Book[]> => {
+          this._snackBar.open(error.message, 'Close');
+          return of([]);
+        })
+      )
+    );
+  }
 
   ngOnInit(): void {
-    this.books$ = this.bookService.getAll().pipe(
-      catchError((error: HttpErrorResponse): Observable<Book[]> => {
-        this._snackBar.open(error.message, 'Close');
-        return of([]);
-      })
-    );
-
     this.breakpointObserver
       .observe([
         Breakpoints.XSmall,
@@ -99,10 +101,6 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
-
-  filterbooks(book: Book): Book[] {
-    return this.books.filter((b) => b.title.includes(book.title));
-  }
 
   updateBookFilter(input: Event) {
     this.bookFilter = (input.target as HTMLInputElement).value;
