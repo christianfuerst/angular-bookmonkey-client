@@ -7,7 +7,7 @@ import { Book } from './types/book';
 @Injectable({
   providedIn: 'root',
 })
-export class BookApiService {
+export class BookService {
   private http = inject(HttpClient);
   private baseUrl = 'http://localhost:4730/books';
 

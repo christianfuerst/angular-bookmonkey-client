@@ -10,7 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { BookCardComponent } from './book-card/book-card.component';
-import { BookApiService } from './book-api.service';
+import { BookService } from './book.service';
 import { BookFilterPipe } from './book-filter.pipe';
 import { Book } from './types/book';
 import { Observable, Subscription, catchError, of } from 'rxjs';
@@ -54,13 +54,13 @@ export class BookComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   constructor(
-    private readonly bookApi: BookApiService,
+    private readonly bookService: BookService,
     private breakpointObserver: BreakpointObserver,
     private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.books$ = this.bookApi.getAll().pipe(
+    this.books$ = this.bookService.getAll().pipe(
       catchError((error: HttpErrorResponse): Observable<Book[]> => {
         this._snackBar.open(error.message, 'Close');
         return of([]);
