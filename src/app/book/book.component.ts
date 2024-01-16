@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
@@ -67,6 +67,8 @@ export class BookComponent implements OnInit, OnDestroy {
       )
     );
   }
+
+  bookCount = computed(() => this.books()?.length);
 
   ngOnInit(): void {
     this.breakpointObserver
