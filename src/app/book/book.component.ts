@@ -54,8 +54,8 @@ export class BookComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly bookApi: BookApiService,
-    private _snackBar: MatSnackBar,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
