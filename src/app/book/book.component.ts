@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -33,7 +33,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss',
 })
-export class BookComponent implements OnDestroy {
+export class BookComponent implements OnInit, OnDestroy {
   cols: number | undefined;
 
   gridByBreakpoint = {
@@ -56,7 +56,22 @@ export class BookComponent implements OnDestroy {
     private readonly bookApi: BookApiService,
     private _snackBar: MatSnackBar,
     private breakpointObserver: BreakpointObserver
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.bookApi.getAll().subscribe({
+        next: (books) => {
+          this.books = books;
+          this.isLoading = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          this._snackBar.open(err.message, 'Close');
+          this.isLoading = false;
+        },
+      })
+    );
+
     this.breakpointObserver
       .observe([
         Breakpoints.XSmall,
@@ -84,19 +99,6 @@ export class BookComponent implements OnDestroy {
           }
         }
       });
-
-    this.subscription.add(
-      this.bookApi.getAll().subscribe({
-        next: (books) => {
-          this.books = books;
-          this.isLoading = false;
-        },
-        error: (err: HttpErrorResponse) => {
-          this._snackBar.open(err.message, 'Close');
-          this.isLoading = false;
-        },
-      })
-    );
   }
 
   ngOnDestroy(): void {
