@@ -1,9 +1,5 @@
 <div>
-  <mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <span>Book Monkey Client</span>
-    </mat-toolbar-row>
-  </mat-toolbar>
+  <app-navigation></app-navigation>
   <mat-form-field class="form-field">
     <mat-label>Suchen</mat-label>
     <input matInput [value]="bookFilter" (input)="updateBookFilter($event)" />
@@ -18,8 +14,11 @@
     </button>
     }
   </mat-form-field>
+  @if (bookCount() === 0) {
+  <div class="center">Keine Bücher vorhanden.</div>
+  } @else {
   <div class="center">Anzahl Bücher: {{ bookCount() }}</div>
-  @if (isLoading) {
+  } @if (isLoading) {
   <mat-spinner class="loading"></mat-spinner>
   }
   <mat-grid-list [cols]="cols" rowHeight="12.5:10">
@@ -29,7 +28,6 @@
         [content]="book"
         (detailClick)="navigate($event)"
       ></app-book-card> </mat-grid-tile
-    >} @empty { @if (!isLoading) {
-    <mat-grid-tile> Keine Bücher vorhanden. </mat-grid-tile>} }
+    >}
   </mat-grid-list>
 </div>
