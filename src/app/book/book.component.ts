@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, Signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { NavigationComponent } from '../navigation/navigation.component';
 import { BookCardComponent } from './book-card/book-card.component';
 import { BookService } from './book.service';
 import { BookFilterPipe } from './book-filter.pipe';
@@ -22,7 +22,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   standalone: true,
   imports: [
     CommonModule,
-    NavigationComponent,
     MatGridListModule,
     MatInputModule,
     MatFormFieldModule,
@@ -54,6 +53,7 @@ export class BookComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   constructor(
+    private readonly router: Router,
     private readonly bookService: BookService,
     private breakpointObserver: BreakpointObserver,
     private _snackBar: MatSnackBar
@@ -106,6 +106,10 @@ export class BookComponent implements OnInit, OnDestroy {
 
   updateBookFilter(input: Event) {
     this.bookFilter = (input.target as HTMLInputElement).value;
+  }
+
+  goToBookDetails(book: Book) {
+    this.router.navigate(['books', 'detail', book.isbn]);
   }
 
   navigate(book: Book) {

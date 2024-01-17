@@ -1,5 +1,12 @@
 <mat-card class="book-card">
   <mat-card-header>
+    <div
+      mat-card-avatar
+      [ngStyle]="{
+        'background-image': 'url(' + content.cover + ')',
+        'background-size': 'cover'
+      }"
+    ></div>
     <mat-card-title [style]="customStyle">{{ content.title }}</mat-card-title>
     <mat-card-subtitle>{{ content.author }}</mat-card-subtitle>
   </mat-card-header>
