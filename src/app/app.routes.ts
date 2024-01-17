@@ -1,21 +1,20 @@
 import { Routes } from '@angular/router';
-import { BookComponent } from './book/book.component';
-import { BookDetailComponent } from './book/book-detail/book-detail.component';
+
 import { AboutComponent } from './about/about.component';
 
 export const appRoutes: Routes = [
   {
-    path: 'books',
-    component: BookComponent,
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/about',
   },
-  { path: 'books/detail/:isbn', component: BookDetailComponent },
+  {
+    path: 'books',
+    loadChildren: () =>
+      import('./book/book.routes').then((module) => module.bookRoutes),
+  },
   {
     path: 'about',
     component: AboutComponent,
-  },
-  {
-    path: '',
-    redirectTo: 'books',
-    pathMatch: 'full',
   },
 ];
